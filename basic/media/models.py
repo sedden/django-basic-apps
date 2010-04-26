@@ -5,6 +5,13 @@ from tagging.fields import TagField
 
 import tagging
 
+# Check if django-imagekit is installed and use the ImageModel
+# as the base model class if yes
+if 'imagekit' in settings.INSTALLED_APPS:
+    from imagekit.models import ImageModel as PhotoModel
+else:
+    from django.db.models import Model as PhotoModel
+
 
 class AudioSet(models.Model):
     """AudioSet model"""
@@ -70,7 +77,7 @@ class PhotoSet(models.Model):
       return ('photo_set_detail', None, { 'slug': self.slug })
 
 
-class Photo(models.Model):
+class Photo(PhotoModel):
     """Photo model"""
     LICENSES = (
         ('http://creativecommons.org/licenses/by/2.0/',         'CC Attribution'),
@@ -115,6 +122,10 @@ class Photo(models.Model):
     @permalink
     def get_absolute_url(self):
         return ('photo_detail', None, { 'slug': self.slug })
+
+    class IKOptions:
+        spec_module = 'basic.media.specs'
+        image_field = 'photo'
 
 
 class VideoSet(models.Model):
