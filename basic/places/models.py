@@ -51,7 +51,7 @@ class Point(models.Model):
     latitude = models.FloatField(_('latitude'), blank=True, null=True)
     longitude = models.FloatField(_('longitude'), blank=True, null=True)
     address = models.CharField(_('address'), max_length=200, blank=True)
-    city = models.ForeignKey(City)
+    city = models.ForeignKey(City, verbose_name=_('city'))
     zip = models.CharField(_('zip'), max_length=10, blank=True)
     country = models.CharField(_('country'), blank=True, max_length=100)
 
@@ -68,23 +68,23 @@ class Point(models.Model):
 class Place(models.Model):
     """Place model."""
     STATUS_CHOICES = (
-        (0, 'Inactive'),
-        (1, 'Active'),
+        (0, _('Inactive')),
+        (1, _('Active')),
     )
-    point = models.ForeignKey(Point)
+    point = models.ForeignKey(Point, verbose_name=_('point'))
     prefix = models.CharField(_('Pre-name'), blank=True, max_length=20)
     title = models.CharField(_('title'), max_length=255)
     slug = models.SlugField(_('slug'))
     nickname = models.CharField(_('nickname'), blank=True, max_length=100)
-    unit = models.CharField(_('unit'), blank=True, max_length=100, help_text='Suite or Apartment #')
+    unit = models.CharField(_('unit'), blank=True, max_length=100, help_text=_('Suite or Apartment #'))
     phone = PhoneNumberField(_('phone'), blank=True)
     url = models.URLField(_('url'), blank=True, verify_exists=False)
     email = models.EmailField(_('email'), blank=True)
     description = models.TextField(_('description'), blank=True)
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES, default=1)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    place_types = models.ManyToManyField(PlaceType, blank=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    modified = models.DateTimeField(_('created'), auto_now=True)
+    place_types = models.ManyToManyField(PlaceType, blank=True, verbose_name=_('place types'))
     tags = TagField()
 
     class Meta:

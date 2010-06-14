@@ -10,15 +10,15 @@ from basic.places.models import Place
 
 class Event(models.Model):
     """Event model"""
-    title = models.CharField(max_length=200)
-    slug = models.SlugField()
-    place = models.ForeignKey(Place, blank=True, null=True)
-    one_off_place = models.CharField(max_length=200, blank=True)
-    description = models.TextField(blank=True)
-    submitted_by = models.ForeignKey(User, blank=True, null=True)
+    title = models.CharField(_('title'), max_length=200)
+    slug = models.SlugField(_('slug'), )
+    place = models.ForeignKey(Place, blank=True, null=True, verbose_name=_('place'))
+    one_off_place = models.CharField(_('one of place'), max_length=200, blank=True)
+    description = models.TextField(_('description'), blank=True)
+    submitted_by = models.ForeignKey(User, blank=True, null=True,  verbose_name=_('user'))
     tags = TagField()
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    modified = models.DateTimeField(_('modified'), auto_now=True)
 
     class Meta:
         verbose_name = _('event')
@@ -31,10 +31,10 @@ class Event(models.Model):
 
 class EventTime(models.Model):
     """EventTime model"""
-    event = models.ForeignKey(Event, related_name='event_times')
-    start = models.DateTimeField()
-    end = models.DateTimeField(blank=True, null=True)
-    is_all_day = models.BooleanField(default=False)
+    event = models.ForeignKey(Event, related_name='event_times', verbose_name=_('event'))
+    start = models.DateTimeField(_('start'))
+    end = models.DateTimeField(_('end'), blank=True, null=True)
+    is_all_day = models.BooleanField(_('is all day'), default=False)
 
     class Meta:
         verbose_name = _('event time')
